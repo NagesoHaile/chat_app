@@ -22,8 +22,8 @@ class MessageGenerator {
     final lang = roll < 0.45
         ? _Lang.english
         : roll < 0.90
-            ? _Lang.amharic
-            : _Lang.mixed;
+        ? _Lang.amharic
+        : _Lang.mixed;
 
     final hasImage = r.nextDouble() < 0.20; // ~20%
     final image = hasImage
