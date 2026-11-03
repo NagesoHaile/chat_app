@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const double kBubbleBig = 16;
 const double kBubbleSmall = 5;
 
-/// Telegram-style corners:
+/// Message bubble corners:
 /// - the side facing the sender's other bubbles is tight (5) when grouped
 /// - the last bubble of a group has a square corner where the tail attaches
 BorderRadius bubbleRadius({

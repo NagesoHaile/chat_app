@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'tg_theme.dart';
+import 'app_theme.dart';
 
 /// Bottom input bar: emoji button, multi-line field, attach button, and a
 /// mic that turns into a send button as soon as there is text.
@@ -13,7 +13,7 @@ class Composer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Tg.header,
+      color: AppTheme.header,
       child: SafeArea(
         top: false,
         child: Row(
@@ -22,7 +22,7 @@ class Composer extends StatelessWidget {
             IconButton(
               onPressed: () {},
               iconSize: 26,
-              color: Tg.subtle,
+              color: AppTheme.subtle,
               icon: const Icon(Icons.emoji_emotions_outlined),
             ),
             Expanded(
@@ -33,11 +33,11 @@ class Composer extends StatelessWidget {
                 keyboardType: TextInputType.multiline,
                 textInputAction: TextInputAction.newline,
                 textCapitalization: TextCapitalization.sentences,
-                style: const TextStyle(color: Tg.text, fontSize: 17),
-                cursorColor: Tg.accent,
+                style: const TextStyle(color: AppTheme.text, fontSize: 17),
+                cursorColor: AppTheme.accent,
                 decoration: const InputDecoration(
                   hintText: 'Message',
-                  hintStyle: TextStyle(color: Tg.subtle, fontSize: 17),
+                  hintStyle: TextStyle(color: AppTheme.subtle, fontSize: 17),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(vertical: 14),
                 ),
@@ -53,20 +53,20 @@ class Composer extends StatelessWidget {
                     IconButton(
                       onPressed: () {},
                       iconSize: 26,
-                      color: Tg.subtle,
+                      color: AppTheme.subtle,
                       icon: const Icon(Icons.attach_file),
                     ),
                     hasText
                         ? IconButton(
                             onPressed: onSend,
                             iconSize: 26,
-                            color: Tg.accent,
+                            color: AppTheme.accent,
                             icon: const Icon(Icons.send_rounded),
                           )
                         : IconButton(
                             onPressed: () {},
                             iconSize: 26,
-                            color: Tg.subtle,
+                            color: AppTheme.subtle,
                             icon: const Icon(Icons.mic_none),
                           ),
                   ],

@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 
 import '../config.dart';
 import '../data/message_repository.dart';
+import 'app_theme.dart';
 import 'composer.dart';
 import 'goto_dialog.dart';
 import 'message_tile.dart';
-import 'tg_theme.dart';
 
 /// HOW THE LIST WORKS (read this first)
 ///
@@ -226,7 +226,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (wasAtBottom) _pinToBottom();
   }
 
-  /// Sends what the user typed. Telegram always jumps to your own message.
+  /// Sends what the user typed and ensures view pins to the message.
   void _send() {
     final text = _input.text.trim();
     if (text.isEmpty) return;
@@ -330,10 +330,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: Tg.header,
+      backgroundColor: AppTheme.header,
       systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Tg.header,
-        systemNavigationBarColor: Tg.header,
+        statusBarColor: AppTheme.header,
+        systemNavigationBarColor: AppTheme.header,
       ),
 
       title: Row(
@@ -352,12 +352,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
-                    color: Tg.text,
+                    color: AppTheme.text,
                   ),
                 ),
                 Text(
                   'online',
-                  style: TextStyle(fontSize: 13, color: Tg.accent),
+                  style: TextStyle(fontSize: 13, color: AppTheme.accent),
                 ),
               ],
             ),
@@ -385,7 +385,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final newerCount = _repo.total - _anchorId + 1;
 
     return Scaffold(
-      backgroundColor: Tg.bg,
+      backgroundColor: AppTheme.bg,
       appBar: _buildAppBar(),
       body: Column(
         children: [
@@ -450,7 +450,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Center(
                       child: FilledButton.icon(
                         style: FilledButton.styleFrom(
-                          backgroundColor: Tg.accent,
+                          backgroundColor: AppTheme.accent,
                           foregroundColor: Colors.black,
                         ),
                         onPressed: _jumpToBottom,
@@ -470,7 +470,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         opacity: show ? 1 : 0,
                         duration: const Duration(milliseconds: 150),
                         child: Material(
-                          color: Tg.header,
+                          color: AppTheme.header,
                           elevation: 3,
                           shape: const CircleBorder(),
                           child: InkWell(
@@ -482,7 +482,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Icon(
                                 Icons.keyboard_arrow_down,
                                 size: 28,
-                                color: Tg.subtle,
+                                color: AppTheme.subtle,
                               ),
                             ),
                           ),
