@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../config.dart';
 import '../models/message.dart';
+import 'app_theme.dart';
 import 'bubble.dart';
 import 'fake_image.dart';
-import 'tg_theme.dart';
 
 const Color _kHighlight = Color(0x59FFC107);
 const List<String> _months = [
@@ -100,6 +100,31 @@ class _MessageTileState extends State<MessageTile> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(10, 6, 10, 2),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                m.isMine ? 'You' : 'User #${(m.id % 24) + 1}',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.accent,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                '#${m.id}',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: m.isMine ? AppTheme.outMeta.withValues(alpha: 0.7) : AppTheme.subtle,
+                ),
+              ),
+            ],
+          ),
+        ),
         if (m.image != null)
           ClipRRect(
             borderRadius: BorderRadius.only(
@@ -109,7 +134,7 @@ class _MessageTileState extends State<MessageTile> {
             child: _buildImage(m.image!),
           ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 6, 10, 6),
+          padding: const EdgeInsets.fromLTRB(10, 4, 10, 6),
           child: _textWithTime(m),
         ),
       ],
@@ -119,7 +144,7 @@ class _MessageTileState extends State<MessageTile> {
       constraints: BoxConstraints(maxWidth: maxWidth),
       child: CustomPaint(
         painter: BubblePainter(
-          color: m.isMine ? Tg.outBubble : Tg.inBubble,
+          color: m.isMine ? AppTheme.outBubble : AppTheme.inBubble,
           radius: radius,
           isMine: m.isMine,
           hasTail: widget.isLastInGroup,
@@ -164,7 +189,7 @@ class _MessageTileState extends State<MessageTile> {
               ),
             ],
           ),
-          style: const TextStyle(color: Tg.text, fontSize: 16, height: 1.25),
+          style: const TextStyle(color: AppTheme.text, fontSize: 16, height: 1.25),
         ),
         Positioned(
           right: 0,
@@ -176,13 +201,13 @@ class _MessageTileState extends State<MessageTile> {
                 _clock(m.time),
                 style: TextStyle(
                   fontSize: 12,
-                  color: m.isMine ? Tg.outMeta : Tg.subtle,
+                  color: m.isMine ? AppTheme.outMeta : AppTheme.subtle,
                 ),
               ),
               if (m.isMine) ...[
                 const SizedBox(width: 3),
                 Icon(m.read ? Icons.done_all : Icons.done,
-                    size: 16, color: Tg.outMeta),
+                    size: 16, color: AppTheme.outMeta),
               ],
             ],
           ),
@@ -203,7 +228,7 @@ class _MessageTileState extends State<MessageTile> {
             width: double.infinity,
             color: const Color(0x33000000),
             alignment: Alignment.center,
-            child: const Icon(Icons.image_outlined, size: 40, color: Tg.subtle),
+            child: const Icon(Icons.image_outlined, size: 40, color: AppTheme.subtle),
           );
   }
 }
@@ -226,7 +251,7 @@ class _DateChip extends StatelessWidget {
           child: Text(
             label,
             style: const TextStyle(
-                color: Tg.text, fontSize: 13, fontWeight: FontWeight.w500),
+                color: AppTheme.text, fontSize: 13, fontWeight: FontWeight.w500),
           ),
         ),
       ),

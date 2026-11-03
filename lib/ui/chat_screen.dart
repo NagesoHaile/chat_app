@@ -41,8 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
   final _input = TextEditingController();
 
   late int _anchorId = _repo.firstUnreadId;
-  late ScrollController _controller =
-      ScrollController(initialScrollOffset: -96); // show a bit of read history
+  late ScrollController _controller = ScrollController(
+    initialScrollOffset: -96,
+  ); // show a bit of read history
   int _generation = 0; // new generation = brand new scroll view
 
   bool _stick = false; // true while the user is at the bottom
@@ -167,7 +168,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void _onImageLoaded(int id, BuildContext tileContext, double delta) {
     final viewport = _viewportBox;
     final box = tileContext.findRenderObject();
-    if (viewport == null || box is! RenderBox || !_controller.hasClients) return;
+    if (viewport == null || box is! RenderBox || !_controller.hasClients)
+      return;
 
     final top = box.localToGlobal(Offset.zero, ancestor: viewport).dy;
     final pos = _controller.position;
@@ -186,7 +188,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   bool _onScroll(ScrollNotification n) {
     if (_programmatic || n.depth != 0) return false;
-    _stick = n.metrics.extentAfter < 32;
+    // User is only stuck to bottom if extentAfter is virtually 0 AND not actively scrolling up
+    _stick = n.metrics.extentAfter < 2.0;
     _showDown.value = !_stick;
     if (_stick && _pendingNew > 0) setState(() => _pendingNew = 0);
     return false;
@@ -195,7 +198,8 @@ class _ChatScreenState extends State<ChatScreen> {
   /// Fires when content/viewport size changes (image loaded at the bottom,
   /// keyboard opened/closed, new messages). If we were at the bottom, stay.
   bool _onMetrics(ScrollMetricsNotification n) {
-    if (_stick && n.metrics.extentAfter > 1) _pinToBottom();
+    // Only pin if genuine layout expansion pushed us away while user was at the very bottom
+    if (_stick && n.metrics.extentAfter > 2.0) _pinToBottom();
     return false;
   }
 
@@ -304,7 +308,8 @@ class _ChatScreenState extends State<ChatScreen> {
     final newDay = prev == null || !_sameDay(prev.time, m.time);
     final divider = id == _repo.firstUnreadId;
     final isFirst = newDay || divider || prev.isMine != m.isMine;
-    final isLast = next == null ||
+    final isLast =
+        next == null ||
         next.isMine != m.isMine ||
         !_sameDay(m.time, next.time) ||
         next.id == _repo.firstUnreadId;
@@ -330,11 +335,7 @@ class _ChatScreenState extends State<ChatScreen> {
         statusBarColor: Tg.header,
         systemNavigationBarColor: Tg.header,
       ),
-      titleSpacing: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () => Navigator.maybePop(context),
-      ),
+
       title: Row(
         children: [
           const _Avatar(initials: 'AB'),
@@ -344,15 +345,20 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Text('Abebe Bekele',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        color: Tg.text)),
-                Text('online',
-                    style: TextStyle(fontSize: 13, color: Tg.accent)),
+                Text(
+                  'Two F Capital',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    color: Tg.text,
+                  ),
+                ),
+                Text(
+                  'online',
+                  style: TextStyle(fontSize: 13, color: Tg.accent),
+                ),
               ],
             ),
           ),
@@ -427,7 +433,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                 },
                               ),
                             ),
-                            const SliverToBoxAdapter(child: SizedBox(height: 6)),
+                            const SliverToBoxAdapter(
+                              child: SizedBox(height: 6),
+                            ),
                           ],
                         ),
                       ),
@@ -471,8 +479,11 @@ class _ChatScreenState extends State<ChatScreen> {
                             child: const SizedBox(
                               width: 42,
                               height: 42,
-                              child: Icon(Icons.keyboard_arrow_down,
-                                  size: 28, color: Tg.subtle),
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 28,
+                                color: Tg.subtle,
+                              ),
                             ),
                           ),
                         ),
@@ -508,9 +519,14 @@ class _Avatar extends StatelessWidget {
           colors: [Color(0xFF7ED0A8), Color(0xFF3FA38A)],
         ),
       ),
-      child: Text(initials,
-          style: const TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w600, fontSize: 16)),
+      child: Text(
+        initials,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 }

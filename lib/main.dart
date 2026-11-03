@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'ui/app_theme.dart';
 import 'ui/chat_screen.dart';
-import 'ui/tg_theme.dart';
 
 void main() => runApp(const ChatApp());
 
@@ -13,7 +13,7 @@ class ChatApp extends StatelessWidget {
     return MaterialApp(
       title: 'Chat',
       debugShowCheckedModeBanner: false,
-      theme: Tg.theme(),
+      theme: AppTheme.theme(),
       home: const ChatScreen(),
     );
   }
