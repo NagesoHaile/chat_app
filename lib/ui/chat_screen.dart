@@ -338,7 +338,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       title: Row(
         children: [
-          const _Avatar(initials: 'AB'),
+          const _Avatar(initials: '2F'),
           const SizedBox(width: 10),
           Expanded(
             child: Column(

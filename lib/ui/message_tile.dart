@@ -106,7 +106,7 @@ class _MessageTileState extends State<MessageTile> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                m.isMine ? 'You' : 'User #${(m.id % 24) + 1}',
+                m.isMine ? 'Fetro Ader' : 'Two F CAPITAL',
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
